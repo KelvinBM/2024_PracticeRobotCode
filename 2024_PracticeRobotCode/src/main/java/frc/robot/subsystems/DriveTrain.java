@@ -80,7 +80,7 @@ public class DriveTrain extends SubsystemBase {
     leftMaster.set(-speed);
   }
 
-  public void stopArcadeDrive(){
+  public void stopMotors(){
     rightMaster.stopMotor();
     leftMaster.stopMotor();
     rightFollower.stopMotor();

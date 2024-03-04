@@ -2,9 +2,11 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.combined;
+package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.combined.StopFeederAndShooter;
+import frc.robot.commands.feeder.FeedWithTimer;
 import frc.robot.commands.shooter.ShootWithTimer;
 import frc.robot.subsystems.Feeder;
 import frc.robot.subsystems.Shooter;
@@ -19,7 +21,9 @@ public class AutoShoot extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new ShootWithTimer(shooter)
+      new ShootWithTimer(shooter),
+      new FeedWithTimer(feeder),
+      new StopFeederAndShooter(feeder, shooter)
     );
   }
 }

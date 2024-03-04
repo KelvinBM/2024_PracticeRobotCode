@@ -13,7 +13,16 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
+  public static final double TIME_FOR_SHOOTER = 3;
+  public static final double TIME_FOR_FEEDER = 2;
+  public static final double TIME_FOR_DRIVE_TRAIN_COMMANDS = 6;
+
   public static class MotorSpeeds {
+    // driveTrain
+    public static final double DRIVE_TRAIN_SPEED = 0.35;// from -1 to 1
+
+    // other mechanisms
     public static double INTAKE_SPEED = 0.5;
     public static double FEEDER_SPEED = 0.5;
     public static double SHOOTER_SPEED = 0.5;
@@ -59,6 +68,17 @@ public final class Constants {
     // DoubelSolenoid channels for DriveTrain
     public static final int FORWARD_CHANNEL = 0;
     public static final int REVERSE_CHANNEL = 1;
+  }
+
+  public static class LimelightConstants {
+    public static final double HEIGHT_OF_TARGET_INCHES = 48;// approximately
+
+    // limelight degree rotated from perfectly vertical?
+    public static final double LIMELIGHT_MOUNT_ANGLE_DEG = 0;// TODO: verify
+    public static final double LIMELIGHT_HEIGHT_INCHES = 13;// TODO: modify
+
+    public static final double DISTANCE_TO_DRIVE = 114.2;// in inches
+    
   }
 
   public static class RoborioPorts {

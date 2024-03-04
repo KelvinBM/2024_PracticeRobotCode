@@ -7,6 +7,7 @@ package frc.robot;
 import frc.robot.Constants.ButtonBoardBindings;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.StopAll;
+import frc.robot.commands.auto.AutoShoot;
 import frc.robot.commands.combined.IntakeToFeeder;
 import frc.robot.commands.combined.RunAll;
 import frc.robot.commands.driveTrain.ArcadeDrive;
@@ -20,6 +21,7 @@ import frc.robot.commands.shooter.RunShooter;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Feeder;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -38,6 +40,8 @@ public class RobotContainer {
   // The robot's subsystems
   private final DriveTrain driveTrain = new DriveTrain();
 
+  private final Limelight limelight = new Limelight();
+  
   private final Intake intake = new Intake();
   private final Feeder feeder = new Feeder();
   private final Shooter shooter = new Shooter();
@@ -90,6 +94,7 @@ public class RobotContainer {
     // xboxController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
 
     // button board bindings
+    autoShootBtn.onTrue(new AutoShoot(shooter, feeder));
     intakeInBtn.whileTrue(new RunIntake(intake));
     intakeOutBtn.whileTrue(new ReverseIntake(intake));
     feederInBtn.whileTrue(new RunFeeder(feeder));
