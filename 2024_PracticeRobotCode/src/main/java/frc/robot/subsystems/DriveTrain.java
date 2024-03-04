@@ -14,8 +14,9 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.CompressorConstants;
 import frc.robot.Constants.DriveTrainConstants;
-import frc.robot.commands.driveTrain.ArcadeDrive;
+
 
 public class DriveTrain extends SubsystemBase {
 
@@ -26,12 +27,12 @@ public class DriveTrain extends SubsystemBase {
 
   private DifferentialDrive arcadeDrive = new DifferentialDrive(leftMaster, rightMaster);
 
-  private Compressor compressor = new Compressor(PneumaticsModuleType.REVPH);
+  private Compressor compressor = new Compressor(CompressorConstants.COMPRESSOR_PORT, PneumaticsModuleType.REVPH);
 
   private DoubleSolenoid driveTrainSolenoid = new DoubleSolenoid(
                                                 PneumaticsModuleType.REVPH, 
-                                                DriveTrainConstants.FORWARD_CHANNEL, 
-                                                DriveTrainConstants.REVERSE_CHANNEL
+                                                CompressorConstants.FORWARD_CHANNEL, 
+                                                CompressorConstants.REVERSE_CHANNEL
                                               );
 
   /** Creates a new DriveTrain. */

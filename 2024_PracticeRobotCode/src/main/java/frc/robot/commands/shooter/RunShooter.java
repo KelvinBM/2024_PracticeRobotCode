@@ -26,7 +26,7 @@ public class RunShooter extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooter.runShooter(1);
+    shooter.runShooter();
   }
 
   // Called once the command ends or is interrupted.

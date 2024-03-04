@@ -26,7 +26,7 @@ public class ReverseFeeder extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    feeder.reverseFeeder(1);
+    feeder.reverseFeeder();
   }
 
   // Called once the command ends or is interrupted.

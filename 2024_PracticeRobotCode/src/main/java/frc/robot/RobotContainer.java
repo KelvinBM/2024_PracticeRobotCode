@@ -8,6 +8,7 @@ import frc.robot.Constants.ButtonBoardBindings;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.StopAll;
 import frc.robot.commands.combined.IntakeToFeeder;
+import frc.robot.commands.combined.RunAll;
 import frc.robot.commands.driveTrain.ArcadeDrive;
 import frc.robot.commands.driveTrain.HighGear;
 import frc.robot.commands.driveTrain.LowGear;
@@ -46,7 +47,8 @@ public class RobotContainer {
   private final Joystick buttonBoard = new Joystick(OperatorConstants.BUTTON_BOARD_PORT);
 
   private JoystickButton intakeInBtn, intakeOutBtn, feederInBtn, feederOutBtn,
-                         shootBtn, autoIntakeBtn, autoShootBtn, stopAllBtn;
+                         shootBtn, autoIntakeBtn, autoShootBtn, stopAllBtn,
+                         runAllBtn;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -61,7 +63,7 @@ public class RobotContainer {
     stopAllBtn = new JoystickButton(buttonBoard, ButtonBoardBindings.STOP_ALL_BTN);
     autoIntakeBtn = new JoystickButton(buttonBoard, ButtonBoardBindings.AUTO_INTAKE_BTN);
     autoShootBtn = new JoystickButton(buttonBoard, ButtonBoardBindings.AUTO_SHOOT_BTN);
-
+    runAllBtn = new JoystickButton(buttonBoard, ButtonBoardBindings.RUN_ALL_BTN);
     // commands
     driveTrain.setDefaultCommand(new ArcadeDrive(driveTrain, xboxController));
 
@@ -97,11 +99,12 @@ public class RobotContainer {
       new IntakeToFeeder(intake, feeder).until(() -> feeder.getFeederSwitchStatus() == false)
     );
     stopAllBtn.onTrue(new StopAll(intake, feeder, shooter));
+    runAllBtn.whileTrue(new RunAll(intake, feeder, shooter));
 
 
     // xbox controller bindings
     xboxController.a().onTrue(new HighGear(driveTrain));
-    xboxController.y().onTrue(new LowGear(driveTrain));
+    xboxController.x().onTrue(new LowGear(driveTrain));
     xboxController.b().onTrue(new StopAll(intake, feeder, shooter));
   }
 
