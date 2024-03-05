@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.MotorSpeeds;
 import frc.robot.Constants.SubsystemMotors;
 
 public class Shooter extends SubsystemBase {
@@ -20,9 +21,9 @@ public class Shooter extends SubsystemBase {
     shooterBottomMotor.setInverted(true);
   }
 
-  public void runShooter(double speed){
-    shooterTopMotor.set(speed);
-    shooterBottomMotor.set(speed);
+  public void runShooter(){
+    shooterTopMotor.set(MotorSpeeds.SHOOTER_SPEED);
+    shooterBottomMotor.set(MotorSpeeds.SHOOTER_SPEED);
   }
 
   public void stopShooter(){

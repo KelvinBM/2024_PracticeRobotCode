@@ -4,16 +4,23 @@
 
 package frc.robot.commands.feeder;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
 import frc.robot.subsystems.Feeder;
 
-public class RunFeeder extends Command {
-  
+/**
+ * Ends but does not stop the feeder's motor after ending
+ */
+public class FeedWithTimer extends Command {
   private Feeder feeder;
-  
+  private Timer timer =  new Timer();
 
-  /** Creates a new RunFeeder. */
-  public RunFeeder(Feeder feeder) {
+  private double startTime;
+  private boolean end = false;
+
+  /** Creates a new FeedWithTimer. */
+  public FeedWithTimer(Feeder feeder) {
     this.feeder = feeder;
 
     addRequirements(feeder);
@@ -23,24 +30,35 @@ public class RunFeeder extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
+    timer.stop();
+    timer.reset();
+    startTime = timer.get();
+    timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    feeder.runFeeder();
+    while(startTime <= Constants.TIME_FOR_FEEDER) {
+      startTime = timer.get();// returns time in seconds
+      feeder.runFeeder();
+    }
+    
+    if(startTime >= Constants.TIME_FOR_FEEDER) {
+      end = true;
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    feeder.stopFeeder();
+    timer.stop();
+    timer.reset();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return end;
   }
 }

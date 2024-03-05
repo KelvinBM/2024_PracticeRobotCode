@@ -4,15 +4,23 @@
 
 package frc.robot.commands.shooter;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
 import frc.robot.subsystems.Shooter;
 
-public class RunShooter extends Command {
-
+/**
+ * Ends but does not stop the shooter's motors after ending
+ */
+public class ShootWithTimer extends Command {
   private Shooter shooter;
+  private Timer timer = new Timer();
 
-  /** Creates a new RunShooter. */
-  public RunShooter(Shooter shooter) {
+  private double startTime;
+  private boolean end = false;
+  
+  /** Creates a new ShootWithTimer. */
+  public ShootWithTimer(Shooter shooter) {
     this.shooter = shooter;
 
     addRequirements(shooter);
@@ -21,23 +29,35 @@ public class RunShooter extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    timer.stop();
+    timer.reset();
+    startTime = timer.get();// returns time in seconds
+    timer.start();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooter.runShooter();
+    while (startTime <= Constants.TIME_FOR_SHOOTER) {
+      startTime = timer.get();
+      shooter.runShooter();
+    }
+
+    if (startTime >= Constants.TIME_FOR_SHOOTER)
+      end = true;
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooter.stopShooter();
+    timer.stop();
+    timer.reset();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return end;
   }
 }
