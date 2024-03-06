@@ -44,13 +44,13 @@ public class ShootAndFeedWithTimer extends Command {
   public void execute() {
     startTime = timer.get();// can also use Timer.getFPGATimestamp
 
-    if (startTime <= Constants.TIME_TO_FEED_SHOOTER) {
+    if (startTime <= Constants.TIME_UNTIL_FEEDING_SHOOTER) {
       shooter.runShooter();
-    } else {
+    } else if (startTime >= Constants.TIME_UNTIL_FEEDING_SHOOTER) {
       feeder.runFeeder();
     }
 
-    if (startTime == 6) {
+    if (startTime >= Constants.TIME_IN_SECS_TO_STOP) {
       feeder.stopFeeder();
       shooter.stopShooter();
       end = true;
@@ -62,6 +62,8 @@ public class ShootAndFeedWithTimer extends Command {
   public void end(boolean interrupted) {
     timer.stop();
     timer.reset();
+    shooter.stopShooter();
+    feeder.stopFeeder();
   }
 
   // Returns true when the command should end.

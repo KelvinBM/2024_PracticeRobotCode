@@ -14,19 +14,30 @@ package frc.robot;
  */
 public final class Constants {
 
-  public static final double TIME_TO_FEED_SHOOTER = 3;
-  public static final double TIME_FOR_FEEDER = 2;
+  public static final double TIME_UNTIL_FEEDING_SHOOTER = 2;
+  public static final double TIME_FOR_FEEDER = 3;
+  public static final double TIME_FOR_SHOOTER = 3;
   public static final double TIME_IN_SECS_TO_STOP = 6;// safety timer to stop commands after a certain amount of time
+
+  public static final int LED_PWM_PORT = 0;
+  public static final int LED_LENGTH_IN_PIXELS = 60;
 
   public static class MotorSpeeds {
     // driveTrain
     public static final double AUTO_DRIVE_TRAIN_SPEED = 0.35;// from -1 to 1
 
-    // other mechanisms
-    public static double INTAKE_SPEED = 0.5;
-    public static double FEEDER_SPEED = 0.5;
-    public static double SHOOTER_SPEED = 0.5;
+    // climber
+    public static final double CLIMBER_UP_SPEED = 0;
+    public static final double CLIMBER_DOWN_SPEED = 0;
 
+    // shooter
+    public static final double SHOOTER_SPEED = 0.5;
+    public static final double SHOOTER_TOP_SPEED = 0.5;
+    public static final double SHOOTER_BOTTOM_SPEED = 0.5;
+
+    // other mechanisms
+    public static final double INTAKE_SPEED = 0.5;
+    public static final double FEEDER_SPEED = 0.5;
   }
 
   public static class OperatorConstants {
@@ -50,17 +61,16 @@ public final class Constants {
     // TODO: verify motor ids
     public static final int LEFT_MASTER_ID = 1;
     public static final int LEFT_FOLLWER_ID = 2;
-    public static final int RIGHT_MASTER_ID =3;
-    public static final int RIGHT_FOLLOWER_ID = 4;
+    public static final int RIGHT_MASTER_ID = 3;// actually 4 on phoenix tuner(doesn't really affect code)
+    public static final int RIGHT_FOLLOWER_ID = 4;// actually 3 on phoenix tuner(doesn't really affect code)
   }
 
   public static class SubsystemMotors {
     public static final int INTAKE_MOTOR_ID = 30;
-
     public static final int SHOOTER_BOTTOM_MOTOR_ID = 22;
     public static final int SHOOTER_TOP_MOTOR_ID = 23;
     public static final int FEEDER_MOTOR_ID = 25;
-
+    public static final int CLIMBER_MOTOR_ID = 40;
   }
 
   public static class CompressorConstants {
@@ -75,11 +85,13 @@ public final class Constants {
     public static final double HEIGHT_OF_TARGET_INCHES = 48;// approximately
 
     // limelight degree rotated from perfectly vertical?
-    public static final double LIMELIGHT_MOUNT_ANGLE_DEG = 0;// TODO: verify
+    public static final double LIMELIGHT_MOUNT_ANGLE_DEG = 0;// TODO: modify
     public static final double LIMELIGHT_HEIGHT_INCHES = 13;// TODO: modify
 
     // TODO: account for speaker length
-    public static final double DISTANCE_TO_DRIVE_FOR_AUTO = 114.2;// in inches
+    // 114.2 inches is the distance of the  first note from the speaker
+    public static final double DISTANCE_TO_DRIVE_BACKWARDS_AUTO = 114.2;// in inches 
+    public static final double DISTANCE_TO_DRIVE_FORWARD_AUTO = 100.0; // in inches
     
   }
 

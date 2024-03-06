@@ -10,6 +10,9 @@ import frc.robot.Constants.MotorSpeeds;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Limelight;
 
+/**
+ * stops motors of driveTrain after ending or being interrupted
+ */
 public class DriveToSpeaker extends Command {
   private DriveTrain driveTrain;
   private Limelight limelight;
@@ -36,14 +39,15 @@ public class DriveToSpeaker extends Command {
     if (limelight.getValidTarget() == true) {
       distanceFromSpeaker = limelight.getDistanceFromTarget();
       
-      if(distanceFromSpeaker < LimelightConstants.DISTANCE_TO_DRIVE_FOR_AUTO) {// change to distance checking
+      if(distanceFromSpeaker < LimelightConstants.DISTANCE_TO_DRIVE_FORWARD_AUTO) {// change to distance checking
         driveTrain.driveForward(MotorSpeeds.AUTO_DRIVE_TRAIN_SPEED);// may have to decrease speeds
-      }else if(distanceFromSpeaker == LimelightConstants.DISTANCE_TO_DRIVE_FOR_AUTO){
+      }else if(distanceFromSpeaker >= LimelightConstants.DISTANCE_TO_DRIVE_FORWARD_AUTO){
         driveTrain.stopMotors();
         end = true;
       }
     }else {
       driveTrain.stopMotors();
+      end = true;// nay cause problems in auto(crashing into speaker)
     }
   }
 

@@ -9,13 +9,14 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.StopAll;
+import frc.robot.commands.combined.ShootAndFeedWithTimer;
 import frc.robot.commands.driveTrain.DriveBackwards;
 import frc.robot.commands.driveTrain.DriveForward;
 import frc.robot.commands.feeder.RunFeeder;
 // import frc.robot.commands.feeder.FeedWithTimer;
 // import frc.robot.commands.feeder.RunFeeder;
 import frc.robot.commands.intake.RunIntake;
-import frc.robot.commands.shooter.ShootWithTimer;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Feeder;
 import frc.robot.subsystems.Intake;
@@ -25,12 +26,14 @@ import frc.robot.subsystems.Shooter;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class AutoScoringUsingTimers extends SequentialCommandGroup {
+  private Climber climber;// just a placeholder, may cause problems with this command
+
   /** Creates a new AutoScoringUsingTimers. */
   public AutoScoringUsingTimers(DriveTrain driveTrain, Shooter shooter, Feeder feeder, Intake intake) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new ShootWithTimer(shooter, feeder),
+      new ShootAndFeedWithTimer(shooter, feeder),
       new WaitCommand(0),
       // new FeedWithTimer(feeder),
       new ParallelCommandGroup(// to drive backwards and pickup at the same time
@@ -41,10 +44,10 @@ public class AutoScoringUsingTimers extends SequentialCommandGroup {
         ).until(() -> feeder.getFeederSwitchStatus() == false)
       ).withTimeout(4),
       new WaitCommand(0),
-      new DriveForward(driveTrain),
+      new DriveForward(driveTrain).withTimeout(3.8),
       new AutoShootWithWait(shooter, feeder),
       new WaitCommand(0),
-      new StopAll(intake, feeder, shooter)
+      new StopAll(intake, feeder, shooter, climber)
     );
   }
 }

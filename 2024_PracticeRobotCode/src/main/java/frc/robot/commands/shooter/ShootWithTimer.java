@@ -6,8 +6,12 @@ package frc.robot.commands.shooter;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
 import frc.robot.subsystems.Shooter;
 
+/**
+ *  Does not stop the shooter's motor
+ */
 public class ShootWithTimer extends Command {
   private Shooter shooter;
   private Timer timer = new Timer();
@@ -36,10 +40,10 @@ public class ShootWithTimer extends Command {
   public void execute() {
     startTime = timer.get();
 
-    if (startTime <= 3){
+    if (startTime <= Constants.TIME_FOR_SHOOTER){
       shooter.runShooter();
-    } else{
-      shooter.stopShooter();
+    } else if (startTime >= Constants.TIME_FOR_SHOOTER){
+      // shooter.stopShooter();
       end = true;
     }
   }
@@ -49,7 +53,7 @@ public class ShootWithTimer extends Command {
   public void end(boolean interrupted) {
     timer.stop();
     timer.reset();
-    shooter.stopShooter();
+    // shooter.stopShooter();
   }
 
   // Returns true when the command should end.

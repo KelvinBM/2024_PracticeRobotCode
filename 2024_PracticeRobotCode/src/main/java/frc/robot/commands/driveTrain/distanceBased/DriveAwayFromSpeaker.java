@@ -36,15 +36,16 @@ public class DriveAwayFromSpeaker extends Command {
     if (limelight.getValidTarget() == true){  
       distanceFromTarget = limelight.getDistanceFromTarget();   
       
-      if (distanceFromTarget > LimelightConstants.DISTANCE_TO_DRIVE_FOR_AUTO){
+      if (distanceFromTarget > LimelightConstants.DISTANCE_TO_DRIVE_BACKWARDS_AUTO){
         driveTrain.driveBackWards(MotorSpeeds.AUTO_DRIVE_TRAIN_SPEED);
 
-      } else if(distanceFromTarget == LimelightConstants.DISTANCE_TO_DRIVE_FOR_AUTO) {
+      } else if(distanceFromTarget == LimelightConstants.DISTANCE_TO_DRIVE_BACKWARDS_AUTO) {
         driveTrain.stopMotors();
         end = true;
       }
     } else {
       driveTrain.stopMotors();
+      end = true; // may cause problems in auto(crashing into speaker)
     }
   }
 

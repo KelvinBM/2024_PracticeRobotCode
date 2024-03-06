@@ -4,9 +4,12 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.AddressableLED;
+import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.Feeder;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -19,6 +22,12 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
+  private AddressableLED led;
+  private AddressableLEDBuffer ledBuffer;//length in pixels
+
+  private Feeder feeder;
+  private boolean switchStatus = false;
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -28,6 +37,19 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    feeder = new Feeder();
+
+    led = new AddressableLED(Constants.LED_PWM_PORT);
+    ledBuffer = new AddressableLEDBuffer(Constants.LED_LENGTH_IN_PIXELS);
+
+    led.setLength(ledBuffer.getLength());
+    led.setData(ledBuffer);
+    
+    for(int i = 0; i < ledBuffer.getLength(); i++){
+      ledBuffer.setRGB(i, 255, 0, 0);
+    }
+    led.setData(ledBuffer);
+    led.start();
   }
 
   /**
@@ -44,6 +66,17 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+    if (feeder.getFeederSensorStatus() == true) {
+      for(int i = 0; i < ledBuffer.getLength(); i++) {
+        ledBuffer.setRGB(i, 0, 255, 0);
+      }
+      led.setData(ledBuffer);
+    } else {
+      for (int i = 0; i < ledBuffer.getLength(); i++) {
+        ledBuffer.setRGB(i, 255, 0, 0);
+      }
+      led.setData(ledBuffer);
+    }
   }
 
   /** This function is called once each time the robot enters Disabled mode. */

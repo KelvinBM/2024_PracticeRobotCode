@@ -44,6 +44,7 @@ public class DriveTrain extends SubsystemBase {
     rightMaster.setInverted(true);
 
     initDriveTrain();
+    enableCompressor();
   }
 
   public void initDriveTrain(){
@@ -51,11 +52,17 @@ public class DriveTrain extends SubsystemBase {
     leftMaster.clearStickyFaults();
     rightFollower.clearStickyFaults();
     leftFollower.clearStickyFaults();
+
+    // may need to add things to this
   }
 
   public void enableCompressor(){
-    compressor.enableHybrid(90, 120);
+    compressor.enableHybrid(90, 110);// TODO: ask if these are good values
   }
+
+  public void disableCompressor(){
+    compressor.disable();
+  } 
 
   public void arcadeDrive(double xSpeed, double zRotation){
     arcadeDrive.arcadeDrive(xSpeed, zRotation);

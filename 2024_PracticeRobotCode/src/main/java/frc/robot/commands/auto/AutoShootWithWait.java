@@ -6,7 +6,7 @@ package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.commands.combined.StopFeederAndShooter;
+import frc.robot.commands.combined.StopShooterAndFeeder;
 import frc.robot.commands.feeder.RunFeeder;
 import frc.robot.commands.shooter.RunShooter;
 import frc.robot.subsystems.Feeder;
@@ -24,7 +24,7 @@ public class AutoShootWithWait extends SequentialCommandGroup {
       new RunShooter(shooter).withTimeout(3),
       new RunFeeder(feeder).withTimeout(3),
       new WaitCommand(0),                                                                           
-      new StopFeederAndShooter(feeder, shooter)
+      new StopShooterAndFeeder(feeder, shooter)
     );
   }
 }

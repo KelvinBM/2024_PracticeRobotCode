@@ -13,11 +13,11 @@ import frc.robot.Constants.LimelightConstants;
 
 public class Limelight extends SubsystemBase {
   private NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-  private NetworkTableEntry ty = table.getEntry("ty");// vertical offset
+  private NetworkTableEntry ty = table.getEntry("ty");// vertical offset entry
   private NetworkTableEntry tv = table.getEntry("tv");
 
 
-  // value of limelight table 'y' value(angle from center of cam to goal)
+  // value of limelight table 'y' value(angle from center of cam to target)
   private double verticalOffsetValue = ty.getDouble(0.0);// default value of 0.0
 
   private double goalHeight = LimelightConstants.HEIGHT_OF_TARGET_INCHES;// in inches

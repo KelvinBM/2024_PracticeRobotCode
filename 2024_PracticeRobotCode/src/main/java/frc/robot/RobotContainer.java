@@ -8,7 +8,6 @@ import frc.robot.Constants.ButtonBoardBindings;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.StopAll;
 import frc.robot.commands.auto.AutoScoringUsingDistances;
-import frc.robot.commands.auto.AutoShootWithTimers;
 import frc.robot.commands.auto.AutoShootWithWait;
 import frc.robot.commands.combined.IntakeToFeeder;
 import frc.robot.commands.combined.RunAll;
@@ -22,6 +21,7 @@ import frc.robot.commands.feeder.RunFeeder;
 import frc.robot.commands.intake.ReverseIntake;
 import frc.robot.commands.intake.RunIntake;
 import frc.robot.commands.shooter.RunShooter;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Feeder;
 import frc.robot.subsystems.Intake;
@@ -49,6 +49,7 @@ public class RobotContainer {
   private final Intake intake = new Intake();
   private final Feeder feeder = new Feeder();
   private final Shooter shooter = new Shooter();
+  private final Climber climber = new Climber();
 
   /** controllers & ButtonBoard **/
   private final CommandXboxController xboxController = new CommandXboxController(OperatorConstants.XBOX_CONTROLLER_PORT);
@@ -110,7 +111,7 @@ public class RobotContainer {
     autoIntakeBtn.onTrue(
       new IntakeToFeeder(intake, feeder).until(() -> feeder.getFeederSwitchStatus() == false)
     );
-    stopAllBtn.onTrue(new StopAll(intake, feeder, shooter));
+    stopAllBtn.onTrue(new StopAll(intake, feeder, shooter, climber));
     runAllBtn.whileTrue(new RunAll(intake, feeder, shooter));
 
 
@@ -119,7 +120,7 @@ public class RobotContainer {
     // xboxController.x().onTrue(new LowGear(driveTrain));
     xboxController.y().onTrue(new DriveToSpeaker(driveTrain, limelight));
     xboxController.x().onTrue(new DriveAwayFromSpeaker(driveTrain, limelight));
-    xboxController.b().onTrue(new StopAll(intake, feeder, shooter));
+    xboxController.b().onTrue(new StopAll(intake, feeder, shooter, climber));
   }
 
   /**
@@ -130,6 +131,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
     return new AutoScoringUsingDistances(driveTrain, limelight, shooter, feeder, intake);
+
     // return 
     //   new AutoShootWithTimers(shooter, feeder)
     //   .andThen(new DriveAwayFromSpeaker(driveTrain, limelight).alongWith())
