@@ -7,12 +7,16 @@ package frc.robot;
 import frc.robot.Constants.ButtonBoardBindings;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.StopAll;
-import frc.robot.commands.auto.AutoShoot;
+import frc.robot.commands.auto.AutoScoringUsingDistances;
+import frc.robot.commands.auto.AutoShootWithTimers;
+import frc.robot.commands.auto.AutoShootWithWait;
 import frc.robot.commands.combined.IntakeToFeeder;
 import frc.robot.commands.combined.RunAll;
 import frc.robot.commands.driveTrain.ArcadeDrive;
 import frc.robot.commands.driveTrain.HighGear;
 import frc.robot.commands.driveTrain.LowGear;
+import frc.robot.commands.driveTrain.distanceBased.DriveAwayFromSpeaker;
+import frc.robot.commands.driveTrain.distanceBased.DriveToSpeaker;
 import frc.robot.commands.feeder.ReverseFeeder;
 import frc.robot.commands.feeder.RunFeeder;
 import frc.robot.commands.intake.ReverseIntake;
@@ -46,7 +50,7 @@ public class RobotContainer {
   private final Feeder feeder = new Feeder();
   private final Shooter shooter = new Shooter();
 
-  // controllers & ButtonBoard
+  /** controllers & ButtonBoard **/
   private final CommandXboxController xboxController = new CommandXboxController(OperatorConstants.XBOX_CONTROLLER_PORT);
   private final Joystick buttonBoard = new Joystick(OperatorConstants.BUTTON_BOARD_PORT);
 
@@ -68,9 +72,9 @@ public class RobotContainer {
     autoIntakeBtn = new JoystickButton(buttonBoard, ButtonBoardBindings.AUTO_INTAKE_BTN);
     autoShootBtn = new JoystickButton(buttonBoard, ButtonBoardBindings.AUTO_SHOOT_BTN);
     runAllBtn = new JoystickButton(buttonBoard, ButtonBoardBindings.RUN_ALL_BTN);
+
     // commands
     driveTrain.setDefaultCommand(new ArcadeDrive(driveTrain, xboxController));
-
     configureBindings();
   }
 
@@ -85,6 +89,8 @@ public class RobotContainer {
    */
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
+    
+    // new Trigger(xboxController.a()).onTrue(null);
 
     // new Trigger(m_exampleSubsystem::exampleCondition)
     //     .onTrue(new ExampleCommand(m_exampleSubsystem));
@@ -93,8 +99,9 @@ public class RobotContainer {
     // cancelling on release.
     // xboxController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
 
-    // button board bindings
-    autoShootBtn.onTrue(new AutoShoot(shooter, feeder));
+    /** button board bindings **/
+    // autoShootBtn.onTrue(new AutoShootWithTimers(shooter, feeder));
+    autoShootBtn.onTrue(new AutoShootWithWait(shooter, feeder));
     intakeInBtn.whileTrue(new RunIntake(intake));
     intakeOutBtn.whileTrue(new ReverseIntake(intake));
     feederInBtn.whileTrue(new RunFeeder(feeder));
@@ -107,9 +114,11 @@ public class RobotContainer {
     runAllBtn.whileTrue(new RunAll(intake, feeder, shooter));
 
 
-    // xbox controller bindings
-    xboxController.a().onTrue(new HighGear(driveTrain));
-    xboxController.x().onTrue(new LowGear(driveTrain));
+    /** xbox controller bindings **/
+    // xboxController.a().onTrue(new HighGear(driveTrain));
+    // xboxController.x().onTrue(new LowGear(driveTrain));
+    xboxController.y().onTrue(new DriveToSpeaker(driveTrain, limelight));
+    xboxController.x().onTrue(new DriveAwayFromSpeaker(driveTrain, limelight));
     xboxController.b().onTrue(new StopAll(intake, feeder, shooter));
   }
 
@@ -120,6 +129,10 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return null;
+    return new AutoScoringUsingDistances(driveTrain, limelight, shooter, feeder, intake);
+    // return 
+    //   new AutoShootWithTimers(shooter, feeder)
+    //   .andThen(new DriveAwayFromSpeaker(driveTrain, limelight).alongWith())
+    // ;
   }
 }

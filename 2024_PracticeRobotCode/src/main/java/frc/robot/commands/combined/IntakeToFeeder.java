@@ -22,7 +22,7 @@ public class IntakeToFeeder extends ParallelCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new RunIntake(intake), 
-      new RunFeeder(feeder)
+      new RunFeeder(feeder).until(() -> feeder.getFeederSwitchStatus() == false)
     );
   }
 }

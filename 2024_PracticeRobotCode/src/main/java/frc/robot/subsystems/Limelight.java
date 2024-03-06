@@ -13,7 +13,9 @@ import frc.robot.Constants.LimelightConstants;
 
 public class Limelight extends SubsystemBase {
   private NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-  private NetworkTableEntry ty = table.getEntry("ty");
+  private NetworkTableEntry ty = table.getEntry("ty");// vertical offset
+  private NetworkTableEntry tv = table.getEntry("tv");
+
 
   // value of limelight table 'y' value(angle from center of cam to goal)
   private double verticalOffsetValue = ty.getDouble(0.0);// default value of 0.0
@@ -35,10 +37,15 @@ public class Limelight extends SubsystemBase {
     return distanceFromTarget;
   }
 
+  public boolean getValidTarget() {
+    boolean validTarget = tv.getBoolean(false);
+    return validTarget;
+  }
+
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Distance From Target", distanceFromTarget);
-
+    
     // This method will be called once per scheduler run
   }
 }

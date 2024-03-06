@@ -5,14 +5,13 @@
 package frc.robot.commands.driveTrain;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.MotorSpeeds;
 import frc.robot.subsystems.DriveTrain;
 
-public class DriveForward extends Command {
-  DriveTrain driveTrain;
-
-  /** Creates a new DriveForward. */
-  public DriveForward(DriveTrain driveTrain) {
+public class StopDriveTrain extends Command {
+  private DriveTrain driveTrain;
+  
+  /** Creates a new StopDriveTrain. */
+  public StopDriveTrain(DriveTrain driveTrain) {
     this.driveTrain = driveTrain;
 
     addRequirements(driveTrain);
@@ -21,23 +20,23 @@ public class DriveForward extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    driveTrain.stopMotors();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driveTrain.driveForward(MotorSpeeds.AUTO_DRIVE_TRAIN_SPEED);
+    driveTrain.stopMotors();
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    driveTrain.stopMotors();
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

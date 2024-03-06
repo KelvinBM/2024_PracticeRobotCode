@@ -14,13 +14,13 @@ package frc.robot;
  */
 public final class Constants {
 
-  public static final double TIME_FOR_SHOOTER = 3;
+  public static final double TIME_TO_FEED_SHOOTER = 3;
   public static final double TIME_FOR_FEEDER = 2;
-  public static final double TIME_FOR_DRIVE_TRAIN_COMMANDS = 6;
+  public static final double TIME_IN_SECS_TO_STOP = 6;// safety timer to stop commands after a certain amount of time
 
   public static class MotorSpeeds {
     // driveTrain
-    public static final double DRIVE_TRAIN_SPEED = 0.35;// from -1 to 1
+    public static final double AUTO_DRIVE_TRAIN_SPEED = 0.35;// from -1 to 1
 
     // other mechanisms
     public static double INTAKE_SPEED = 0.5;
@@ -56,14 +56,15 @@ public final class Constants {
 
   public static class SubsystemMotors {
     public static final int INTAKE_MOTOR_ID = 30;
-    public static final int FEEDER_MOTOR_ID = 25;
 
     public static final int SHOOTER_BOTTOM_MOTOR_ID = 22;
     public static final int SHOOTER_TOP_MOTOR_ID = 23;
+    public static final int FEEDER_MOTOR_ID = 25;
+
   }
 
   public static class CompressorConstants {
-    public static final int COMPRESSOR_PORT = 20;
+    public static final int COMPRESSOR_PORT = 28;
 
     // DoubelSolenoid channels for DriveTrain
     public static final int FORWARD_CHANNEL = 0;
@@ -77,7 +78,8 @@ public final class Constants {
     public static final double LIMELIGHT_MOUNT_ANGLE_DEG = 0;// TODO: verify
     public static final double LIMELIGHT_HEIGHT_INCHES = 13;// TODO: modify
 
-    public static final double DISTANCE_TO_DRIVE = 114.2;// in inches
+    // TODO: account for speaker length
+    public static final double DISTANCE_TO_DRIVE_FOR_AUTO = 114.2;// in inches
     
   }
 

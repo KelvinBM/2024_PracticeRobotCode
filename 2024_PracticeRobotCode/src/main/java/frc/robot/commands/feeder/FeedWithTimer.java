@@ -9,9 +9,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.Feeder;
 
-/**
- * Ends but does not stop the feeder's motor after ending
- */
+
 public class FeedWithTimer extends Command {
   private Feeder feeder;
   private Timer timer =  new Timer();
@@ -39,12 +37,12 @@ public class FeedWithTimer extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    while(startTime <= Constants.TIME_FOR_FEEDER) {
-      startTime = timer.get();// returns time in seconds
+    startTime = timer.get();// returns time in seconds
+
+    if (startTime <= Constants.TIME_FOR_FEEDER) {
       feeder.runFeeder();
-    }
-    
-    if(startTime >= Constants.TIME_FOR_FEEDER) {
+    } else if (startTime == Constants.TIME_FOR_FEEDER) {
+      feeder.stopFeeder();
       end = true;
     }
   }
@@ -54,6 +52,7 @@ public class FeedWithTimer extends Command {
   public void end(boolean interrupted) {
     timer.stop();
     timer.reset();
+    feeder.stopFeeder();
   }
 
   // Returns true when the command should end.

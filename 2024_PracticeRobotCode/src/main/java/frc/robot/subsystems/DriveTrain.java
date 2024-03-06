@@ -44,9 +44,6 @@ public class DriveTrain extends SubsystemBase {
     rightMaster.setInverted(true);
 
     initDriveTrain();
-
-    // TODO: ask Gagan to see if these are good values 
-    compressor.enableAnalog(90, 120);
   }
 
   public void initDriveTrain(){
@@ -54,6 +51,10 @@ public class DriveTrain extends SubsystemBase {
     leftMaster.clearStickyFaults();
     rightFollower.clearStickyFaults();
     leftFollower.clearStickyFaults();
+  }
+
+  public void enableCompressor(){
+    compressor.enableHybrid(90, 120);
   }
 
   public void arcadeDrive(double xSpeed, double zRotation){
@@ -75,7 +76,7 @@ public class DriveTrain extends SubsystemBase {
     leftMaster.set(speed);
   }
 
-  public void driveBackWard(double speed){
+  public void driveBackWards(double speed){
     rightMaster.set(-speed);
     leftMaster.set(-speed);
   }
@@ -91,7 +92,7 @@ public class DriveTrain extends SubsystemBase {
   public void periodic() {
 
     SmartDashboard.putBoolean("Compressor On", compressor.isEnabled());
-
+    SmartDashboard.putNumber("Air Pressure", compressor.getPressure());
     // This method will be called once per scheduler run
   }
 }

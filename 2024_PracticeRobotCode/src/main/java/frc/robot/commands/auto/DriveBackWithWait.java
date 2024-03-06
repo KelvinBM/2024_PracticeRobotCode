@@ -6,25 +6,25 @@ package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.commands.combined.StopFeederAndShooter;
-import frc.robot.commands.feeder.FeedWithTimer;
-import frc.robot.commands.shooter.ShootWithTimer;
-import frc.robot.subsystems.Feeder;
-import frc.robot.subsystems.Shooter;
+import frc.robot.commands.driveTrain.DriveBackwards;
+import frc.robot.commands.driveTrain.DriveForward;
+import frc.robot.commands.driveTrain.StopDriveTrain;
+import frc.robot.subsystems.DriveTrain;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AutoShoot extends SequentialCommandGroup {
-  /** Creates a new AutoShoot. */
-  public AutoShoot(Shooter shooter, Feeder feeder) {
+public class DriveBackWithWait extends SequentialCommandGroup {
+  /** Creates a new AutoDriveWithWait. */
+  public DriveBackWithWait(DriveTrain driveTrain) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new ShootWithTimer(shooter, feeder),
-      new FeedWithTimer(feeder),
+      new DriveBackwards(driveTrain),
+      new WaitCommand(3),
+      new DriveForward(driveTrain),
       new WaitCommand(0),
-      new StopFeederAndShooter(feeder, shooter)
+      new StopDriveTrain(driveTrain)
     );
   }
 }
